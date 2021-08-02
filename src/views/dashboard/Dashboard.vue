@@ -68,7 +68,7 @@
             >
               mdi-clock-outline
             </v-icon>
-            <span class="caption grey--text font-weight-light">updated 10 minutes ago</span>
+            <span class="text-caption grey--text font-weight-light">updated 10 minutes ago</span>
           </template>
         </base-material-chart-card>
       </v-col>
@@ -142,7 +142,7 @@
             >
               mdi-clock-outline
             </v-icon>
-            <span class="caption grey--text font-weight-light">updated 4 minutes ago</span>
+            <span class="text-caption grey--text font-weight-light">updated 4 minutes ago</span>
           </template>
         </base-material-chart-card>
       </v-col>
@@ -209,7 +209,7 @@
             >
               mdi-clock-outline
             </v-icon>
-            <span class="caption grey--text font-weight-light">campaign sent 26 minutes ago</span>
+            <span class="text-caption grey--text font-weight-light">campaign sent 26 minutes ago</span>
           </template>
         </base-material-chart-card>
       </v-col>
@@ -221,7 +221,7 @@
       >
         <base-material-stats-card
           color="info"
-          icon="mdi-twitter"
+          avatar="https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/385455/da758506-c9fa-4dc5-8714-7c88fdf6e7fd.jpg"
           title="Followers"
           value="+245"
           sub-icon="mdi-clock"
@@ -284,11 +284,11 @@
           class="px-5 py-3"
         >
           <template v-slot:heading>
-            <div class="display-2 font-weight-light">
+            <div class="text-h3 font-weight-light">
               Employees Stats
             </div>
 
-            <div class="subtitle-1 font-weight-light">
+            <div class="text-subtitle-1 font-weight-light">
               New employees on 15th September, 2016
             </div>
           </template>
