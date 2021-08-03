@@ -215,64 +215,13 @@
       </v-col>
 
       <v-col
+        v-for="person in persons"
+        :key="person.id"
         cols="12"
         sm="6"
-        lg="3"
+        lg="4"
       >
-        <base-material-stats-card
-          color="info"
-          avatar="https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/385455/da758506-c9fa-4dc5-8714-7c88fdf6e7fd.jpg"
-          title="Followers"
-          value="+245"
-          sub-icon="mdi-clock"
-          sub-text="Just Updated"
-        />
-      </v-col>
-
-      <v-col
-        cols="12"
-        sm="6"
-        lg="3"
-      >
-        <base-material-stats-card
-          color="primary"
-          icon="mdi-poll"
-          title="Website Visits"
-          value="75.521"
-          sub-icon="mdi-tag"
-          sub-text="Tracked from Google Analytics"
-        />
-      </v-col>
-
-      <v-col
-        cols="12"
-        sm="6"
-        lg="3"
-      >
-        <base-material-stats-card
-          color="success"
-          icon="mdi-store"
-          title="Revenue"
-          value="$ 34,245"
-          sub-icon="mdi-calendar"
-          sub-text="Last 24 Hours"
-        />
-      </v-col>
-
-      <v-col
-        cols="12"
-        sm="6"
-        lg="3"
-      >
-        <base-material-stats-card
-          color="orange"
-          icon="mdi-sofa"
-          title="Bookings"
-          value="184"
-          sub-icon="mdi-alert"
-          sub-icon-color="red"
-          sub-text="Get More Space..."
-        />
+        <person-card :person="person" />
       </v-col>
 
       <v-col
@@ -393,8 +342,13 @@
 </template>
 
 <script>
+  import PersonCard from '~/components/person/PersonCard'
+
   export default {
     name: 'Dashboard',
+    components: {
+      PersonCard,
+    },
     data () {
       return {
         dailySalesChart: {
