@@ -187,7 +187,7 @@
 <script>
 // Mixins
   import Proxyable from 'vuetify/lib/mixins/proxyable'
-  import { mapMutations, mapState } from 'vuex'
+  import { mapState, mapMutations } from 'vuex'
 
   export default {
     name: 'DashboardCoreSettings',
@@ -221,22 +221,23 @@
       showImg (val) {
         if (!val) {
           this.saveImage = this.barImage
-          this.setBarImage('')
+          this.toggleBarImage(false)
         } else if (this.saveImage) {
-          this.setBarImage(this.saveImage)
+          this.toggleBarImage(true)
           this.saveImage = ''
         } else {
-          this.setBarImage(val)
+          this.toggleBarImage(val)
         }
       },
       image (val) {
-        this.setBarImage(val)
+        this.changeBarImage(val)
       },
     },
 
     methods: {
       ...mapMutations({
-        setBarImage: 'SET_BAR_IMAGE',
+        changeBarImage: 'theme/changeBarImage',
+        toggleBarImage: 'theme/toggleBarImage',
       }),
     },
   }

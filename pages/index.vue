@@ -394,8 +394,7 @@
 
 <script>
   export default {
-    name: 'DashboardDashboard',
-
+    name: 'Dashboard',
     data () {
       return {
         dailySalesChart: {
@@ -591,8 +590,18 @@
         },
       }
     },
-
+    computed: {
+      persons () {
+        return this.$store.state.persons.persons
+      },
+    },
+    created () {
+      this.load()
+    },
     methods: {
+      load () {
+        this.$store.dispatch('persons/loadPersons')
+      },
       complete (index) {
         this.list[index] = !this.list[index]
       },

@@ -26,6 +26,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    'plugins/api.ts',
     'plugins/base.js',
     'plugins/chartist.js',
     'plugins/i18n.js',
@@ -51,7 +52,9 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: process.env.BROWSER_BASE_URL || 'http://localhost:8080/api',
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -65,5 +68,11 @@ export default {
         autoprefixer: {},
       },
     },
+    transpile: [
+      'veutify',
+    ],
+    transpileDependencies: [
+      'vuex-module-decorators',
+    ],
   },
 }

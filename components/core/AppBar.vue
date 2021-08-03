@@ -12,7 +12,7 @@
       elevation="1"
       fab
       small
-      @click="setDrawer(!drawer)"
+      @click="changeDrawer(!drawer)"
     >
       <v-icon v-if="value">
         mdi-view-quilt
@@ -175,12 +175,12 @@
     }),
 
     computed: {
-      ...mapState(['drawer']),
+      ...mapState('theme', ['drawer']),
     },
 
     methods: {
       ...mapMutations({
-        setDrawer: 'SET_DRAWER',
+        changeDrawer: 'theme/changeDrawer',
       }),
     },
   }

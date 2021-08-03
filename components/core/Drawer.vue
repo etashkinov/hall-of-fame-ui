@@ -5,7 +5,7 @@
     :dark="barColor !== 'rgba(228, 226, 226, 1), rgba(255, 255, 255, 0.7)'"
     :expand-on-hover="expandOnHover"
     :right="$vuetify.rtl"
-    :src="barImage"
+    :src="getBarImage"
     mobile-breakpoint="960"
     app
     width="260"
@@ -81,7 +81,7 @@
 <script>
   // Utilities
   import {
-    mapState,
+    mapState, mapGetters,
   } from 'vuex'
 
   export default {
@@ -155,13 +155,14 @@
     }),
 
     computed: {
-      ...mapState(['barColor', 'barImage']),
+      ...mapState('theme', ['barColor']),
+      ...mapGetters('theme', ['getBarImage']),
       drawer: {
         get () {
-          return this.$store.state.drawer
+          return this.$store.state.theme.drawer
         },
         set (val) {
-          this.$store.commit('SET_DRAWER', val)
+          this.$store.commit('theme/changeDrawer', val)
         },
       },
       computedItems () {
