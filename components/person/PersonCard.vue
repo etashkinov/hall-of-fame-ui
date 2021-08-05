@@ -28,11 +28,26 @@
             {{ person.position || "Unknown team" }}
           </div>
           <div class="text-subtitle-1 font-weight-light">
-            {{ person.position || "Unknown position" }}
+            {{ position().name || "Unknown position" }}
           </div>
         </div>
       </div>
     </template>
+
+    <h3 class="card-title font-weight-light mt-2 ml-2">
+      Expertise
+    </h3>
+
+    <p class="d-inline-flex flex-wrap ml-2 mt-1">
+      <skill
+        v-for="expertise in dict('expertises')"
+        :key="expertise.id"
+        :level="expertise.level"
+        :name="expertise.name"
+        :since="formatDate(expertise.since)"
+      />
+      <add-chip @click="() => addNewExpertise(person.id)" />
+    </p>
 
     <h3 class="card-title font-weight-light mt-2 ml-2">
       Skills
@@ -40,73 +55,73 @@
 
     <p class="d-inline-flex flex-wrap ml-2 mt-1">
       <skill
-        level="2"
-        name="Java"
-        :since="person.createdAt"
+        v-for="skill in dict('skills')"
+        :key="skill.id"
+        :level="skill.level"
+        :name="skill.name"
+        :since="formatDate(skill.since)"
       />
-      <skill
-        level="1"
-        name="Vue"
-        :since="person.createdAt"
-      />
-      <skill
-        level="0"
-        name="AWS"
-        :since="person.createdAt"
-      />
-      <v-chip
-        class="ma-1"
-        outlined
-        @click="() => addNewSkill(person.id)"
-      >
-        <v-icon left>
-          mdi-plus
-        </v-icon>
-        New
-      </v-chip>
-    </p>
-
-    <h3 class="card-title font-weight-light mt-2 ml-2">
-      Expertise
-    </h3>
-
-    <p class="d-inline-flex font-weight-light ml-2 mt-1">
-      Store integrations, Quote calculations, Production, Infrastructure, 3D Analysis in Lambda
+      <new-skill :person-id="personId" />
     </p>
   </base-material-card>
 </template>
 
 <script>
-  import moment from 'moment'
   import { api } from '~/plugins/api'
   import Skill from '~/components/person/Skill'
+  import AddChip from '~/components/person/AddChip'
+  import NewSkill from '~/components/person/NewSkill'
 
   export default {
     name: 'PersonCard',
     components: {
       Skill,
+      AddChip,
+      NewSkill,
     },
     props: {
-      person: {
-        type: Object,
+      personId: {
+        type: String,
         required: true,
       },
     },
-    data () {
-      const since = moment(this.person.createdAt).fromNow()
-      const avatar = api.persons.image(this.person.id) + (this.person.imageChanged ? '?changed=true' : '')
-      return ({
-        since,
-        avatar,
-      })
+    computed: {
+      person () {
+        return this.$store.state.persons.persons[this.personId]
+      },
+      avatar () {
+        return api.persons.image(this.person.id) + (this.person.imageChanged ? '?changed=true' : '')
+      },
+    },
+    created () {
+      this.load()
     },
     methods: {
+      load () {
+        this.$store.dispatch('persons/loadDictionaries', this.personId)
+      },
       onUpdateImage () {
         this.$refs.uploader.click()
       },
       onFileChanged ({ target }) {
         const { files: [image] } = target
-        this.$store.dispatch('persons/updateImage', { personId: this.person.id, image })
+        this.$store.dispatch('persons/updateImage', { personId: this.personId, image })
+      },
+      formatDate (since) {
+        return this.$moment(since, 'YYYY-MM-DD').format()
+      },
+      dict (type) {
+        const { dicts } = this.person
+        return dicts ? dicts[type] : []
+      },
+      position () {
+        const positions = [...this.dict('positions')].sort((p1, p2) => {
+          if (!p1.till) return -1
+          if (!p2.till) return 1
+          return p1.till < p2.till ? 1 : -1
+        })
+
+        return positions.length ? positions[0] : {}
       },
     },
   }

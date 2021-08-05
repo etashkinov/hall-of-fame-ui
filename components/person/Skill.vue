@@ -14,24 +14,7 @@
 
 <script>
   import moment from 'moment'
-
-  const TYPES = {
-    0: {
-      icon: 'mdi-ship-wheel',
-      color: 'blue',
-      title: 'Explorer',
-    },
-    1: {
-      icon: 'mdi-fireplace',
-      color: 'green',
-      title: 'Habitant',
-    },
-    2: {
-      icon: 'mdi-head-snowflake-outline',
-      color: 'purple',
-      title: 'Guru',
-    },
-  }
+  import levels from './levels'
 
   export default {
     name: 'Skill',
@@ -50,7 +33,7 @@
       },
     },
     data () {
-      const type = TYPES[this.level]
+      const type = levels[this.level]
       const fromWhen = moment(this.since).fromNow()
       return ({
         ...type,

@@ -215,13 +215,13 @@
       </v-col>
 
       <v-col
-        v-for="person in persons"
-        :key="person.id"
+        v-for="personId in persons"
+        :key="personId"
         cols="12"
         sm="6"
         lg="4"
       >
-        <person-card :person="person" />
+        <person-card :person-id="personId" />
       </v-col>
 
       <v-col
@@ -546,7 +546,7 @@
     },
     computed: {
       persons () {
-        return this.$store.state.persons.persons
+        return Object.keys(this.$store.state.persons.persons)
       },
     },
     created () {
@@ -555,6 +555,7 @@
     methods: {
       load () {
         this.$store.dispatch('persons/loadPersons')
+        this.$store.dispatch('teams/load')
       },
       complete (index) {
         this.list[index] = !this.list[index]
