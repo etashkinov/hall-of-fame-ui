@@ -22,10 +22,11 @@
         <div class="ml-auto text-right">
           <div class="text-h3 font-weight-light">
             {{ person.name || "Person X" }}
+            <edit-person :person="person" />
           </div>
 
           <div class="text-subtitle-1 font-weight-light">
-            {{ person.position || "Unknown team" }}
+            {{ team().name || "Unknown team" }}
           </div>
           <div class="text-subtitle-1 font-weight-light">
             {{ position().name || "Unknown position" }}
@@ -71,6 +72,7 @@
   import Skill from '~/components/person/Skill'
   import AddChip from '~/components/person/AddChip'
   import NewSkill from '~/components/person/NewSkill'
+  import EditPerson from './EditPerson.vue'
 
   export default {
     name: 'PersonCard',
@@ -78,6 +80,7 @@
       Skill,
       AddChip,
       NewSkill,
+      EditPerson,
     },
     props: {
       personId: {
@@ -122,6 +125,10 @@
         })
 
         return positions.length ? positions[0] : {}
+      },
+      team () {
+        const { teamId } = this.position()
+        return this.$store.state.teams.values[teamId] || {}
       },
     },
   }

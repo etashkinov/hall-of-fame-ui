@@ -59,8 +59,9 @@ export interface PersonDictionaries {
 export interface PersonDict {
   dictId: number;
   since: Moment;
-  level: number;
-  description: string;
+  level?: number;
+  description?: string;
+  teamId?: number;
 }
 
 const PATH = '/persons'
@@ -79,17 +80,17 @@ export default (axios: AxiosInstance) => ({
     })
   },
   loadDictionaries: async (id: number) => {
-    const [skills, expertises, positions] =
+    const [skills, expertises, achievements, positions] =
       await Promise.all([
         axios.get(`${personPath(id)}/skills`),
         axios.get(`${personPath(id)}/expertises`),
-        // axios.get(`/persons/${id}/achievements`),
+        axios.get(`${personPath(id)}/achievements`),
         axios.get(`${personPath(id)}/positions`),
       ]);
     return {
       skills: skills.data || [],
       expertises: expertises.data || [],
-      achievements: [],
+      achievements: achievements.data || [],
       positions: positions.data || [],
     }
   },

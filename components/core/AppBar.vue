@@ -25,7 +25,7 @@
 
     <v-toolbar-title
       class="hidden-sm-and-down font-weight-light"
-      v-text="$route.name"
+      v-text="$t($route.name)"
     />
 
     <v-spacer />
@@ -50,6 +50,8 @@
         </v-btn>
       </template>
     </v-text-field>
+
+    <new-person />
 
     <div class="mx-3" />
 
@@ -123,6 +125,7 @@
 
   // Utilities
   import { mapState, mapMutations } from 'vuex'
+  import NewPerson from '../person/NewPerson.vue'
 
   export default {
     name: 'DashboardCoreAppBar',
@@ -155,6 +158,7 @@
           })
         },
       },
+      NewPerson,
     },
 
     props: {

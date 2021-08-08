@@ -39,14 +39,16 @@ export const mutations: MutationTree<RootState> = {
 }
 
 export const actions: ActionTree<RootState, RootState> = {
-  async addPerson({ commit }, { name }) {
-    const person = await api.persons.addPerson(name, "")
+  async addPerson({ commit }, { name, description }) {
+    const person = await api.persons.addPerson(name, description)
     commit('SET_PERSON', person)
+    return person
   },
 
-  async updatePerson({ commit }, { id, name }) {
-    const person = await api.persons.updatePerson(id, name, "")
+  async updatePerson({ commit }, { id, name, description }) {
+    const person = await api.persons.updatePerson(id, name, description)
     commit('SET_PERSON', person)
+    return person
   },
 
   async loadPersons({ commit }) {
@@ -62,7 +64,8 @@ export const actions: ActionTree<RootState, RootState> = {
   async addDict({ state, commit }, { personId, type, dict }) {
     const result = await api.persons.addDict(personId, type, dict)
     const dicts = state.persons[personId].dicts || {} as Record<string, any>
-    commit('SET_PERSON_DICTS', { personId, dicts: { ...dicts, [type]: [...dicts[type], result] } })
+    commit('SET_PERSON_DICTS', { personId, dicts: { ...dicts, [type]: [...(dicts[type] || []), result] } })
+    return result
   },
 
   async updateImage({ commit }, { personId, image }) {
